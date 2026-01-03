@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.pedroPathing;
 
+import com.pedropathing.control.FilteredPIDFCoefficients;
+import com.pedropathing.control.PIDFCoefficients;
 import com.pedropathing.follower.Follower;
 import com.pedropathing.follower.FollowerConstants;
 import com.pedropathing.ftc.FollowerBuilder;
@@ -12,9 +14,22 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 public class Constants {
     public static FollowerConstants followerConstants = new FollowerConstants()
+            .useSecondaryTranslationalPIDF(true)
+            .useSecondaryHeadingPIDF(true)
+            .useSecondaryDrivePIDF(true)
+            .forwardZeroPowerAcceleration(-36.2007)
+            .lateralZeroPowerAcceleration(-96.5001)
+            .translationalPIDFCoefficients(new PIDFCoefficients(0.07, 0, 0.01, 0.025))
+            .headingPIDFCoefficients(new PIDFCoefficients(0.85, 0, 0.02, 0.03))
+            .drivePIDFCoefficients(new FilteredPIDFCoefficients(0.6, 0.0, 0.0001, 0.6, 0.025))
+            .centripetalScaling(0.0005)
             .mass(10);
 
-    public static PathConstraints pathConstraints = new PathConstraints(0.99, 100, 1, 1);
+    public static PathConstraints pathConstraints = new PathConstraints(
+            0.99,
+            100,
+            1,
+            1);
 
     public static Follower createFollower(HardwareMap hardwareMap) {
         return new FollowerBuilder(followerConstants, hardwareMap)
@@ -26,6 +41,8 @@ public class Constants {
 
     public static MecanumConstants driveConstants = new MecanumConstants()
             .maxPower(1)
+            .xVelocity(82.6200)
+            .yVelocity(61.2488)
             .rightFrontMotorName("FrontRight")
             .rightRearMotorName("BackRight")
             .leftRearMotorName("BackLeft")
